@@ -25,7 +25,7 @@ select *
 	from actor a
 	join cast c
 		on c.actorID = a.id
-	where c.movieID = (select id from movie where name = 'Spider-Man: Homecoming');
+	where c.movieID = (select id from movie where name = 'Star Wars: A New Hope');
 
 -- Three table join, listing all films, actors, and their respective roles
 select m.name 'Film', concat(a.firstName, " ", a.lastName) 'Actor', c.role 'Role'
@@ -40,3 +40,41 @@ select m.name 'Film', concat(a.firstName, " ", a.lastName) 'Actor', c.role 'Role
 -- another way to join
 select * from actor, cast
 	where actor.id = cast.actorID;
+    
+-- example of a unique constraint violation
+insert into movie (name, year, rating, director)
+values ('Spider-Man: Homecoming', 2017, 'PG-13', 'Jon Watts');
+
+-- example of a Foreign Key violation
+insert into cast (movieID, actorID, role)
+	values (99, 99, 'test');
+    
+-- Add actors
+/*insert into customer (name, city, state, isCorpAcct, creditLimit)
+values
+	('Dummy3', 'Dummy', 'DY', 0, 5555.55),
+	('Dummy4', 'Dummy', 'DY', 0, 5555.55),
+    ('Dummy5', 'Dummy', 'DY', 0, 5555.55)*/
+    
+select * from actor;
+
+-- all Roberts born before 1970
+select * from actor
+	where firstName = 'Robert'
+    and birthdate < '1970-01-01';
+    
+-- all actors born before 1960 or after 1990
+select * from actor
+	where birthdate < '1960-01-01'
+		or birthdate > '1989-12-31';
+        
+-- and/or example
+select * from actor
+	where firstName like 'R%'
+		and (lastName = 'Downey Jr.'
+			or lastname = 'Smith');
+            
+select * from actor
+	where firstName like 'R%'
+		and (lastName = 'Downey Jr.'
+			or lastname = 'Hauer');
